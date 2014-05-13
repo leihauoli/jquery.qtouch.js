@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0">
+	<title>Sample qtouch</title>
+	<style>
+		html, body, div, p {
+			margin: 0;
+			padding: 0;
+		}
+		.box {
+			margin: 20px;
+			padding: 20px 20px 0;
+			text-align: center;
+		}
+		.normal {
+			background: #DDDDDD;
+		}
+		.quick {
+			background: #99FF99;
+		}
+		.count {
+			font-size: 80px;
+		}
+		a {
+			font-size: 80px;
+		}
+	</style>
+</head>
+<body>
+	<div id="jsiNormalTouch" class="box normal">
+		<p class="explain">Normal touch event.<br>Try touch me.</p>
+		<p class="count jscCount">0</p>
+	</div>
+	<div id="jsiQuickTouch" class="box quick">
+		<p class="explain">Quick touch event<br>Try touch me.</p>
+		<p class="count jscCount">0</p>
+	</div>
+
+	<script src="libs/jquery.min.js"></script>
+	<script src="jquery.qtouch.js"></script>
+	<script>
+		var incrementCount = function ($trigger) {
+			var $count = $trigger.find('.jscCount');
+
+			$count.text(parseInt($count.text(), 10) + 1);
+		};
+
+		$(function () {
+			$('#jsiNormalTouch').on('click', function () {
+				incrementCount($(this));
+			});
+			$('#jsiQuickTouch').qtouch(function () {
+				incrementCount($(this));
+			});
+			$('#jsiQuickTouch').qtouchhover(function () {
+				$(this).css('background', '#FF9999');
+			}, function () {
+				$(this).css('background', '#99FF99');
+			});
+		});
+	</script>
+</body>
+</html>
