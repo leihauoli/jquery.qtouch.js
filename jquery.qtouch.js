@@ -1,5 +1,5 @@
 /*!
- * jquery.qtouch.js v0.81 - jQuery custom event for quick touch on smartphone.
+ * jquery.qtouch.js v0.9 - jQuery custom event for quick touch on smartphone.
  * Copyright (c) 2014 Lei Hau'oli Co.,Ltd. - https://github.com/leihauoli/jquery.qtouch.js
  * License: MIT
  */
@@ -8,6 +8,7 @@
 		this.$trigger = $trigger;
 		this.flagTouching = false;
 		this.flagCancel = false;
+		this.hasTouch = 'ontouchstart' in window;
 		this.fn = fn;
 
 		this.init();
@@ -19,19 +20,25 @@
 		bindEvents: function () {
 			var _self = this;
 
-			this.$trigger
-				.on('click', function (e) {
-					e.preventDefault();
-				})
-				.on('touchstart', function () {
-					_self.startTouch();
-				})
-				.on('touchmove touchcancel', function () {
-					_self.cancelTouch();
-				})
-				.on('touchend', function (e) {
-					_self.endTouch(e);
+			if (this.hasTouch) {
+				this.$trigger
+					.on('click', function (e) {
+						e.preventDefault();
+					})
+					.on('touchstart', function () {
+						_self.startTouch();
+					})
+					.on('touchmove touchcancel', function () {
+						_self.cancelTouch();
+					})
+					.on('touchend', function (e) {
+						_self.endTouch(e);
+					});
+			} else {
+				this.$trigger.on('click', function (e) {
+					_self.trigger(e);
 				});
+			}
 		},
 		startTouch: function () {
 			this.flagTouching = true;
@@ -45,15 +52,18 @@
 			e.type = 'qtouch';
 
 			if (!this.flagCancel) {
-				if (typeof this.fn === 'function') {
-					$.proxy(this.fn, this.$trigger[0])(e);
-				} else {
-					this.$trigger.trigger('qtouch');
-				}
+				this.trigger(e);
 			}
 
 			this.flagTouching = false;
 			this.flagCancel = false;
+		},
+		trigger: function (e) {
+			if (typeof this.fn === 'function') {
+				$.proxy(this.fn, this.$trigger[0])(e);
+			} else {
+				this.$trigger.trigger('qtouch');
+			}
 		}
 	};
 	$.fn.qtouch = function (fn) {
@@ -70,6 +80,7 @@
 		this.$trigger = $trigger;
 		this.fnOver = fnOver;
 		this.fnOut = fnOut;
+		this.hasTouch = 'ontouchstart' in window;
 
 		if (typeof this.fnOver !== 'function' || typeof this.fnOut !== 'function') {
 			return;
@@ -84,16 +95,26 @@
 		bindEvents: function () {
 			var _self = this;
 
-			this.$trigger
-				.on('click', function (e) {
-					e.preventDefault();
-				})
-				.on('touchstart', function (e) {
-					_self.startTouch(e);
-				})
-				.on('touchmove touchcancel touchend', function (e) {
-					_self.endTouch(e);
-				});
+			if (this.hasTouch) {
+				this.$trigger
+					.on('click', function (e) {
+						e.preventDefault();
+					})
+					.on('touchstart', function (e) {
+						_self.startTouch(e);
+					})
+					.on('touchmove touchcancel touchend', function (e) {
+						_self.endTouch(e);
+					});
+			} else {
+				this.$trigger
+					.on('mouseenter', function (e) {
+						_self.startTouch(e);
+					})
+					.on('mouseleave', function (e) {
+						_self.endTouch(e);
+					});
+			}
 		},
 		startTouch: function (e) {
 			e.type = 'qtouchhoveron';
