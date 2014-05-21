@@ -1,5 +1,5 @@
 /*!
- * jquery.qtouch.js v1.0 - jQuery custom event for quick touch on smartphone.
+ * jquery.qtouch.js v0.81 - jQuery custom event for quick touch on smartphone.
  * Copyright (c) 2014 Lei Hau'oli Co.,Ltd. - https://github.com/leihauoli/jquery.qtouch.js
  * License: MIT
  */
