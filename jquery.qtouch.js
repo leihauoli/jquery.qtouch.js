@@ -6,13 +6,9 @@
 (function ($) {
 	var Qtouch = function ($trigger, fn) {
 		this.$trigger = $trigger;
-		this.fn = fn;
 		this.flagTouching = false;
 		this.flagCancel = false;
-
-		if (typeof this.fn !== 'function') {
-			return;
-		}
+		this.fn = fn;
 
 		this.init();
 	};
@@ -49,7 +45,11 @@
 			e.type = 'qtouch';
 
 			if (!this.flagCancel) {
-				$.proxy(this.fn, this.$trigger[0])(e);
+				if (typeof this.fn === 'function') {
+					$.proxy(this.fn, this.$trigger[0])(e);
+				} else {
+					this.$trigger.trigger('qtouch');
+				}
 			}
 
 			this.flagTouching = false;
@@ -61,7 +61,11 @@
 			new Qtouch($(this), fn);
 		});
 	};
-
+	$.event.special.qtouch = {
+		setup: function () {
+			new Qtouch($(this));
+		}
+	};
 	var QtouchHover = function ($trigger, fnOver, fnOut) {
 		this.$trigger = $trigger;
 		this.fnOver = fnOver;
