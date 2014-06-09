@@ -1,5 +1,5 @@
 /*!
- * jquery.qtouch.js v0.901 - jQuery custom event for quick touch on smartphone.
+ * jquery.qtouch.js v0.910 - jQuery custom event for quick touch on smartphone.
  * Copyright (c) 2014 Lei Hau'oli Co.,Ltd. - https://github.com/leihauoli/jquery.qtouch.js
  * License: MIT
  */
@@ -15,6 +15,7 @@
 	};
 	Qtouch.prototype = {
 		init: function () {
+			this.removeTapHighlightColor();
 			this.bindEvents();
 		},
 		bindEvents: function () {
@@ -39,6 +40,11 @@
 					_self.trigger(e);
 				});
 			}
+		},
+		removeTapHighlightColor: function () {
+			this.$trigger.css({
+				webkitTapHighlightColor: 'rgba(0, 0, 0, 0)'
+			});
 		},
 		startTouch: function () {
 			this.flagTouching = true;
