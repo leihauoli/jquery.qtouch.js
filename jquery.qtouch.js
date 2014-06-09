@@ -1,9 +1,9 @@
 /*!
- * jquery.qtouch.js v0.9 - jQuery custom event for quick touch on smartphone.
+ * jquery.qtouch.js v0.901 - jQuery custom event for quick touch on smartphone.
  * Copyright (c) 2014 Lei Hau'oli Co.,Ltd. - https://github.com/leihauoli/jquery.qtouch.js
  * License: MIT
  */
-(function ($) {
+;(function ($) {
 	var Qtouch = function ($trigger, fn) {
 		this.$trigger = $trigger;
 		this.flagTouching = false;
@@ -117,12 +117,12 @@
 			}
 		},
 		startTouch: function (e) {
-			e.type = 'qtouchhoveron';
+			e.type = 'qtouchenter';
 
 			$.proxy(this.fnOver, this.$trigger[0])(e);
 		},
 		endTouch: function (e) {
-			e.type = 'qtouchhoveroff';
+			e.type = 'qtouchleave';
 
 			$.proxy(this.fnOut, this.$trigger[0])(e);
 		}
