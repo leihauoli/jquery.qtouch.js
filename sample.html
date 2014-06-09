@@ -62,8 +62,13 @@
 			$('#jsiQuickTouch').on('qtouch', function () {
 				incrementCount($(this));
 			});
+			$('#jsiNormalTouch').hover(function () {
+				$(this).css('background', '#AAAAAA');
+			}, function () {
+				$(this).css('background', '#DDDDDD');
+			});
 			$('#jsiQuickTouch').qtouchhover(function () {
-				$(this).css('background', '#FF9999');
+				$(this).css('background', '#66CC66');
 			}, function () {
 				$(this).css('background', '#99FF99');
 			});
